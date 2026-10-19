@@ -1,0 +1,14 @@
+# Development-only dashboard settings: bind to localhost, no telemetry, no uploads.
+[server]
+address = "127.0.0.1"
+port = 8501
+headless = true
+maxUploadSize = 1
+enableXsrfProtection = true
+
+[browser]
+gatherUsageStats = false
+serverAddress = "127.0.0.1"
+
+[runner]
+fastReruns = true

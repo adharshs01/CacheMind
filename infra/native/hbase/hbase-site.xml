@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!--
+  CacheMind HBase STANDALONE configuration for LOCAL DEVELOPMENT.
+  One JVM runs HMaster + RegionServer + ZooKeeper on the local filesystem.
+  Rendered by `python -m cachemind.ops.infra up hbase`; dollar-brace placeholders are substituted.
+  Every listener is bound to 127.0.0.1. No authentication: never expose it.
+-->
+<configuration>
+  <property><name>hbase.cluster.distributed</name><value>false</value></property>
+  <property><name>hbase.rootdir</name><value>file://${HBASE_DATA_DIR}/hbase</value></property>
+  <property><name>hbase.tmp.dir</name><value>${HBASE_DATA_DIR}/tmp</value></property>
+  <property><name>hbase.zookeeper.property.dataDir</name><value>${HBASE_DATA_DIR}/zookeeper</value></property>
+  <!-- the local filesystem has no hflush/hsync capability checks -->
+  <property><name>hbase.unsafe.stream.capability.enforce</name><value>false</value></property>
+  <property><name>hbase.zookeeper.quorum</name><value>127.0.0.1</value></property>
+  <property><name>hbase.zookeeper.property.clientPort</name><value>${HBASE_ZK_PORT}</value></property>
+  <property><name>hbase.zookeeper.property.clientPortAddress</name><value>127.0.0.1</value></property>
+  <!-- Advertise "localhost" instead of the machine hostname: on macOS the hostname
+       can resolve (via DNS) to a non-local address that the IPv4-loopback-bound
+       master is not listening on. -->
+  <property><name>hbase.master.hostname</name><value>localhost</value></property>
+  <property><name>hbase.unsafe.regionserver.hostname</name><value>localhost</value></property>
+  <!-- (do NOT also set ...hostname.disable.master.reversedns: HBase rejects the combination) -->
+  <property><name>hbase.master.ipc.address</name><value>127.0.0.1</value></property>
+  <property><name>hbase.regionserver.ipc.address</name><value>127.0.0.1</value></property>
+  <property><name>hbase.master.info.bindAddress</name><value>127.0.0.1</value></property>
+  <property><name>hbase.master.info.port</name><value>${HBASE_UI_PORT}</value></property>
+  <property><name>hbase.regionserver.info.port</name><value>-1</value></property>
+  <property><name>hbase.rest.host</name><value>127.0.0.1</value></property>
+  <property><name>hbase.rest.port</name><value>${HBASE_REST_PORT}</value></property>
+  <property><name>hbase.rest.info.port</name><value>-1</value></property>
+  <property><name>hbase.rest.readonly</name><value>false</value></property>
+  <!-- DEV-ONLY ZooKeeper tolerance. On the 8 GB laptop a ZooKeeper WAL fsync once took
+       34 s (disk starved), the master's 10 s ZK session expired and the master aborted.
+       Longer sessions ride out such stalls; forceSync=no skips the per-transaction fsync of
+       the embedded ZooKeeper (coordination state only; table data still goes through the
+       HBase WAL). Never use these settings in production. -->
+  <property><name>hbase.zookeeper.property.tickTime</name><value>6000</value></property>
+  <property><name>hbase.zookeeper.property.maxSessionTimeout</name><value>120000</value></property>
+  <property><name>zookeeper.session.timeout</name><value>90000</value></property>
+  <!-- standalone mode overrides the session timeout with this property (default 10 s) -->
+  <property><name>zookeeper.session.timeout.localHBaseCluster</name><value>90000</value></property>
+  <property><name>hbase.zookeeper.property.forceSync</name><value>no</value></property>
+  <!-- small memstore/block cache for a laptop-sized heap -->
+  <property><name>hfile.block.cache.size</name><value>0.2</value></property>
+  <property><name>hbase.regionserver.global.memstore.size</name><value>0.25</value></property>
+</configuration>

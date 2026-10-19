@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!-- Container standalone HBase. Clients use the REST gateway (port 8080) only. -->
+<configuration>
+  <property><name>hbase.cluster.distributed</name><value>false</value></property>
+  <property><name>hbase.rootdir</name><value>file:///data/hbase</value></property>
+  <property><name>hbase.tmp.dir</name><value>/data/tmp</value></property>
+  <property><name>hbase.zookeeper.property.dataDir</name><value>/data/zookeeper</value></property>
+  <property><name>hbase.unsafe.stream.capability.enforce</name><value>false</value></property>
+  <property><name>hbase.zookeeper.quorum</name><value>localhost</value></property>
+  <property><name>hbase.master.hostname</name><value>localhost</value></property>
+  <property><name>hbase.unsafe.regionserver.hostname</name><value>localhost</value></property>
+  <property><name>hbase.regionserver.info.port</name><value>-1</value></property>
+  <property><name>hbase.rest.port</name><value>8080</value></property>
+  <property><name>hbase.rest.info.port</name><value>-1</value></property>
+  <property><name>hfile.block.cache.size</name><value>0.2</value></property>
+  <property><name>hbase.regionserver.global.memstore.size</name><value>0.25</value></property>
+</configuration>

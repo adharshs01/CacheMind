@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.hypothesis/
+
+# Secrets / local config
+.env
+.env.*
+!.env.example
+
+# Project-local JVM tooling (downloaded + checksum-verified by scripts/fetch_tools.py)
+.tools/
+.fetch_tools.log
+
+# Runtime state: service data dirs, logs, pids, Spark/Ivy caches, checkpoints
+.runtime/
+spark-warehouse/
+metastore_db/
+derby.log
+
+# Generated data and lakehouse layers (reproducible from `make generate-data` + ETL)
+data/
+
+# Generated artifacts (models, experiment outputs); keep the folders
+artifacts/*
+!artifacts/.gitkeep
+reports/*
+!reports/.gitkeep
+!reports/README.md
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Parallel coverage files
+.coverage.*
